@@ -11,6 +11,7 @@ use App\Models\Patient;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class BillingScenarioSeeder extends Seeder
 {
@@ -47,21 +48,24 @@ class BillingScenarioSeeder extends Seeder
 
         foreach ($patients as $index => $patient) {
             $consultation = $patient->consultations->first();
-            $service = $services[$index % $services->count()];
+
+            if (! $consultation) {
+                continue;
+            }
+
             $status = $index % 3 === 0 ? 'payee' : ($index % 3 === 1 ? 'non_payee' : 'partiellement_payee');
 
             $facture = Facture::updateOrCreate(
                 ['reference' => 'FAC-2026-'.str_pad((string) ($index + 1), 4, '0', STR_PAD_LEFT)],
-                [
-                    'id_patient' => $patient->id_patient,
-                    'id_consultation' => $consultation?->id_consultation,
-                    'id_service' => $service->id_service,
+                array_filter([
+                    'id_patient' => Schema::hasColumn('facture', 'id_patient') ? $patient->id_patient : null,
+                    'id_consultation' => $consultation->id_consultation,
                     'montant' => [350, 500, 780, 1200, 260][$index] ?? 300,
                     'statut_paiement' => $status,
                     'date_facture' => now()->subDays(9 - $index)->toDateString(),
                     'date_paiement' => $status === 'payee' ? now()->subDays(2)->toDateString() : null,
                     'notes' => $status === 'non_payee' ? 'Paiement en attente.' : 'Facture de demonstration.',
-                ],
+                ], fn ($value) => $value !== null),
             );
 
             if ($status !== 'payee') {

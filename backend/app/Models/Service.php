@@ -21,6 +21,13 @@ class Service extends Model
 
     public function factures()
     {
-        return $this->hasMany(Facture::class, 'id_service', 'id_service');
+        return $this->hasManyThrough(
+            Facture::class,
+            Consultation::class,
+            'id_service',
+            'id_consultation',
+            'id_service',
+            'id_consultation'
+        );
     }
 }

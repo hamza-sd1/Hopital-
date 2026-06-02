@@ -12,10 +12,11 @@ class Facture extends Model
 
     public $timestamps = false;
 
+    protected $appends = ['patient', 'service'];
+
     protected $fillable = [
         'id_patient',
         'id_consultation',
-        'id_service',
         'reference',
         'montant',
         'statut_paiement',
@@ -33,19 +34,19 @@ class Facture extends Model
         ];
     }
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class, 'id_patient', 'id_patient');
-    }
-
     public function consultation()
     {
         return $this->belongsTo(Consultation::class, 'id_consultation', 'id_consultation');
     }
 
-    public function service()
+    public function getPatientAttribute()
     {
-        return $this->belongsTo(Service::class, 'id_service', 'id_service');
+        return $this->consultation?->patient;
+    }
+
+    public function getServiceAttribute()
+    {
+        return $this->consultation?->service;
     }
 
     public function messages()

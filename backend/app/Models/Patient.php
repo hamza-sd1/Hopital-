@@ -46,6 +46,13 @@ class Patient extends Model
 
     public function factures()
     {
-        return $this->hasMany(Facture::class, 'id_patient', 'id_patient');
+        return $this->hasManyThrough(
+            Facture::class,
+            Consultation::class,
+            'id_patient',
+            'id_consultation',
+            'id_patient',
+            'id_consultation'
+        );
     }
 }

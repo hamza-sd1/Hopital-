@@ -10,7 +10,7 @@ class MessageController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Message::with(['expediteur', 'destinataire', 'facture.patient.user'])->latest('date_envoi');
+        $query = Message::with(['expediteur', 'destinataire', 'facture.consultation.patient.user'])->latest('date_envoi');
         $user = $request->user();
 
         if (! in_array($user->role, ['admin', 'facturation'], true)) {

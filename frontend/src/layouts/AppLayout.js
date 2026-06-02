@@ -4,12 +4,12 @@ import UnpaidInvoiceAlert from '../components/UnpaidInvoiceAlert'
 
 export default function AppLayout() {
   return (
-    <>
+    <div className="app-layout">
       <TopNavbar />
       <UnpaidInvoiceAlert />
       <main className="app-shell">
         <Outlet />
       </main>
-    </>
+    </div>
   )
 }

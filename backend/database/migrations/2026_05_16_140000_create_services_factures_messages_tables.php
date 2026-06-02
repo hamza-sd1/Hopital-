@@ -32,9 +32,7 @@ return new class extends Migration
 
         Schema::create('facture', function (Blueprint $table) {
             $table->id('id_facture');
-            $table->foreignId('id_patient')->constrained('patient', 'id_patient')->cascadeOnDelete();
-            $table->foreignId('id_consultation')->nullable()->constrained('consultation', 'id_consultation')->nullOnDelete();
-            $table->foreignId('id_service')->nullable()->constrained('service', 'id_service')->nullOnDelete();
+            $table->foreignId('id_consultation')->unique()->constrained('consultation', 'id_consultation')->cascadeOnDelete();
             $table->string('reference')->unique();
             $table->decimal('montant', 10, 2);
             $table->enum('statut_paiement', ['non_payee', 'payee', 'partiellement_payee', 'annulee'])->default('non_payee');

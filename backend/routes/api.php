@@ -20,9 +20,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->middleware('role:admin');
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->middleware('role:admin,medecin,patient');
 
     Route::apiResource('users', UserController::class)->middleware('role:admin');
     Route::apiResource('services', ServiceController::class)->middleware('role:admin,facturation');

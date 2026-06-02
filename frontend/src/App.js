@@ -12,7 +12,6 @@ import Messages from './pages/Messages'
 import Notifications from './pages/Notifications'
 import PatientRecord from './pages/PatientRecord'
 import Patients from './pages/Patients'
-import Permissions from './pages/Permissions'
 import Profile from './pages/Profile'
 import Services from './pages/Services'
 import SimplePage from './pages/SimplePage'
@@ -40,7 +39,6 @@ export default function App() {
             <Route path="/admin/medecins" element={<Medecins />} />
             <Route path="/admin/types-documents" element={<TypeDocuments />} />
             <Route path="/admin/activites" element={<Activites />} />
-            <Route path="/admin/permissions" element={<Permissions />} />
             <Route path="/admin/services" element={<Services />} />
             <Route path="/admin/factures" element={<Factures />} />
           </Route>

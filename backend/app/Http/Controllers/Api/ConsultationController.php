@@ -12,7 +12,7 @@ class ConsultationController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Consultation::with(['patient.user', 'medecin.user', 'service']);
+        $query = Consultation::with(['patient.user', 'medecin.user', 'service', 'facture']);
         $this->applyUserScope($request, $query);
 
         foreach (['id_patient', 'id_medecin'] as $field) {
